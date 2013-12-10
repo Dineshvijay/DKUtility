@@ -1,0 +1,271 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf400
+{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red26\green26\blue26;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww25400\viewh13520\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\f0\fs28 \cf2 \
+Do the following\
+\
+1)Import the  \CocoaLigature0 MobileCoreServices framework\
+\
+2)Import the following files into your project\
+	\
+\pard\tx674\pardeftab674\pardirnatural
+\cf2 DKUtilityController.h\
+DKUtilityController.m\
+\
+DKSignature.h\
+DKSignature.m\
+\
+3) add the delegate in your view controller.h\
+\
+<DKUtilityDelegate>\
+\
+4) create a DKUtilityController object and set its delegate self\
+\
+ DKUtilityController *dkUtility=[[DKUtilityController alloc]init];\
+ dkUtility.delegate=self;\
+\
+///////////////////////////////////////////////////////////////////\
+For open a mail in button action\
+\
+ * add the below line in your button action method\
+[dkUtility sendEmail:@"message" setRecipient:nil setSubject:@"test"];\
+\
+*then add the following lines\
+-(void)openEmail:(MFMailComposeViewController *)mailComposer\{\
+    \
+    [self presentViewController:mailComposer animated:YES completion:nil];\
+\}\
+\
+-(void)dismissEmailView\{\
+    \
+    [self dismissViewControllerAnimated:YES completion:nil];\
+\}\
+\
+////////////////////////////////////////////////////////////////////////\
+\
+For open SMS in button action\
+\
+ * add the below line in your button action method\
+ [dkUtility sendSMS:@"message" setRecipient:nil];\
+\
+*then add the following lines\
+-(void)openSMS:(MFMessageComposeViewController *)smsComposer\{\
+    [self presentViewController:smsComposer animated:YES completion:nil];\
+\}\
+-(void)dismissSMSView\{\
+    \
+    [self dismissViewControllerAnimated:YES completion:nil];\
+\}\
+////////////////////////////////////////////////////////////////////////\
+\
+For open Date Picker in button action\
+\
+* add the below line in your button action method\
+[dkUtility openDatePicker];\
+\
+*then add the following lines\
+\
+-(void)setDatePicker:(UIViewController *)date_Picker\{\
+    \
+    date_Picker.contentSizeForViewInPopover=CGSizeMake(320, 216);\
+    UIPopoverController *tempPopover=[[UIPopoverController alloc]initWithContentViewController:date_Picker];\
+    self.popOver=tempPopover;\
+    [self.popOver presentPopoverFromRect:self.dateButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];\
+    [tempPopover release];\
+    \
+    \
+\}\
+-(void)setDate:(NSString *)dateText\{\
+    \
+    _dateLabel.text=dateText;\
+\}\
+////////////////////////////////////////////////////////////////////////\
+For open Time Picker in button action\
+\
+* add the below line in your button action method\
+[dkUtility openTimePicker];\
+\
+*then add the following lines\
+\
+-(void)setTimePicker:(UIViewController *)time_Picker\{\
+    \
+    \
+    time_Picker.contentSizeForViewInPopover=CGSizeMake(320, 216);\
+    UIPopoverController *tempPopover=[[UIPopoverController alloc]initWithContentViewController:time_Picker];\
+    self.popOver=tempPopover;\
+    [self.popOver presentPopoverFromRect:self.timeButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];\
+    [tempPopover release];\
+    \
+\}\
+\
+-(void)setTime:(NSString *)timeText\{\
+    \
+    _timeLabel.text=timeText;\
+\}\
+\
+////////////////////////////////////////////////////////////////////////\
+For open Custom Picker in button action\
+\
+* add the below line in your button action method\
+ [dkUtility openCustomPickerListView];\
+\
+*then add the following lines\
+\
+-(void)setCustomPicker:(UIViewController *)customPickerView\{\
+    \
+    UIPopoverController *tempPopover=[[UIPopoverController alloc]initWithContentViewController:customPickerView];\
+    self.popOver=tempPopover;\
+    customPickerView.contentSizeForViewInPopover=CGSizeMake(320, 216);\
+    [self.popOver presentPopoverFromRect:self.pickerButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];\
+    [tempPopover release];\
+\}\
+\
+-(void)selectedPicker:(NSString *)pickerName\{\
+    \
+    _pickerListLabel.text=pickerName;\
+    \
+\}\
+////////////////////////////////////////////////////////////////////////\
+\
+For open Signature capture in button action\
+\
+* add the below line in your button action method\
+ [dkUtility openSignatureView];\
+\
+*then add the following lines\
+\
+-(void)setSignatureController:(UIViewController *)controller\{\
+    \
+    controller.contentSizeForViewInPopover=CGSizeMake(320, 216);\
+    UIPopoverController *tempPopover=[[UIPopoverController alloc]initWithContentViewController:controller];\
+    self.popOver=tempPopover;\
+    [self.popOver presentPopoverFromRect:self.signBtn.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];\
+    [tempPopover release];\
+    \
+    \
+\}\
+\
+-(void)setSignature:(UIView *)signView\{\
+    signView.frame=_signView.bounds;\
+    [_signView addSubview:signView];\
+    [self.popOver dismissPopoverAnimated:YES];\
+    \
+\}\
+\
+////////////////////////////////////////////////////////////////////////\
+\
+For open Comment box in button action\
+\
+* add the below line in your button action method\
+\
+ [dkUtility openCommentBox];\
+\
+*then add the following lines\
+\
+-(void)setComments:(UIViewController *)controller\{\
+    UIPopoverController *tempPopover=[[UIPopoverController alloc]initWithContentViewController:controller];\
+    tempPopover.popoverContentSize=CGSizeMake(320, 216);\
+    self.popOver=tempPopover;\
+    controller.contentSizeForViewInPopover=CGSizeMake(320, 216);\
+    [self.popOver presentPopoverFromRect:self.commentButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];\
+    [tempPopover release];\
+    \
+\}\
+-(void)setCommentDone:(NSString *)comments\{\
+    \
+    self.commentsTxt.text=comments;\
+    [self.popOver dismissPopoverAnimated:YES];\
+    \
+\}\
+-(void)setCommentCancel\
+\{\
+    [self.popOver dismissPopoverAnimated:YES];\
+    \
+\}\
+\
+////////////////////////////////////////////////////////////////////////\
+\
+For open CAMERA in button action\
+\
+* add the below line in your button action method\
+\
+ [dkUtility openCameraForPhoto:YES orVideo:NO];\
+\
+*then add the following lines\
+\
+-(void)openCamera:(UIImagePickerController *)imageController\{\
+    \
+    UIPopoverController *tempPopover=[[UIPopoverController alloc]initWithContentViewController:imageController];\
+    self.popOver=tempPopover;\
+    [self.popOver presentPopoverFromRect:self.photoButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];\
+    [tempPopover release];\
+    \
+    \
+\}\
+-(void)savePhoto:(NSData *)data\{\
+    \
+    _imagePreview.image=[UIImage imageWithData:data];\
+    [self.popOver dismissPopoverAnimated:YES];\
+\}\
+\
+////////////////////////////////////////////////////////////////////////\
+\
+For open Video Recorder in button action\
+\
+* add the below line in your button action method\
+\
+ [dkUtility openCameraForPhoto:NO orVideo:YES];\
+\
+*then add the following lines\
+\
+-(void)saveVideo:(NSData *)data\{\
+    \
+    if([[NSFileManager defaultManager]fileExistsAtPath:self.fileName])\{\
+        \
+        NSError *error;\
+        [[NSFileManager defaultManager]removeItemAtPath:self.fileName error:&error];\
+    \}\
+    else\{\
+        NSArray *array=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);\
+        NSString *path=[array objectAtIndex:0];\
+        NSString *tempfileName=[path stringByAppendingPathComponent:VIDEOFILE];\
+        [data writeToFile:tempfileName atomically:YES];\
+        self.fileName=tempfileName;\
+        MPMoviePlayerController *controller=[[MPMoviePlayerController alloc]initWithContentURL:[NSURL fileURLWithPath:tempfileName]];\
+        UIImage *preview=[controller thumbnailImageAtTime:0.5 timeOption:MPMovieTimeOptionNearestKeyFrame];\
+        [self.videoPreview setImage:preview forState:UIControlStateNormal];\
+        [controller release];\
+        [self.popOver dismissPopoverAnimated:YES];\
+    \}\
+    \
+\}\
+\
+-(void)movieFinish:(NSNotification *)notification\{\
+    \
+    [self.popOver dismissPopoverAnimated:YES];\
+    MPMoviePlayerViewController *moviePlayer=[notification object];\
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:moviePlayer];\
+\}\
+\
+*for playing the video\
+- (IBAction)playVideo:(id)sender \{\
+  \
+    if([[NSFileManager defaultManager]fileExistsAtPath:self.fileName])\{\
+        MPMoviePlayerViewController *controller=[[MPMoviePlayerViewController alloc]initWithContentURL:[NSURL fileURLWithPath:self.fileName]];\
+        controller.contentSizeForViewInPopover=CGSizeMake(600, 600);\
+        UIPopoverController *tempPopOver=[[UIPopoverController alloc]initWithContentViewController:controller];\
+        self.popOver=tempPopOver;\
+        [self.popOver presentPopoverFromRect:self.videoButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];\
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(movieFinish:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];\
+        [tempPopOver release];\
+        [controller release];\
+    \}\
+    \
+    \
+\}\
+\
+////////////////////////////////////////////////////////////////////////\
+}
